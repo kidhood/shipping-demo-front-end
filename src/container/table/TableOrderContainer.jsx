@@ -1,5 +1,5 @@
 import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
-import { Button, Container, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
+import { Box, Button, Container, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { getListOrders, ordersSliceSelector } from '../../redux/ordersSlice';
@@ -21,17 +21,18 @@ const TableOrderContainer = () => {
     },[]) 
 
   return (
-    <Container sx={{marginTop: "50px"}}>
+    <Box sx={{marginTop: "50px", width: '100%'}}>
         <TableContainer >
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow>
             <TableCell />
             <TableCell align="right">ID</TableCell>
+            <TableCell align="right">FULL NAME</TableCell>
+            <TableCell align="right">PHONE NUMBER</TableCell>
             <TableCell align="right">PAYMENT METHOD</TableCell>
             <TableCell align="right">SHIPPING FEE</TableCell>
             <TableCell align="right">STATUS</TableCell>
-            <TableCell align="right">CREATE DATE</TableCell>
             <TableCell align="right">ACTION</TableCell>
           </TableRow>
         </TableHead>
@@ -42,7 +43,7 @@ const TableOrderContainer = () => {
         </TableBody>
       </Table>
     </TableContainer>
-    </Container>
+    </Box>
   )
 }
 

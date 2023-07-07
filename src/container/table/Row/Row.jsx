@@ -1,12 +1,11 @@
 import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material'
-import { Button, IconButton, TableCell, TableRow } from '@mui/material'
+import { Box, Button, Collapse, IconButton, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material'
 import moment from 'moment'
 import React, { useState } from 'react'
-import { orderStatus, orderStatusList } from '../../../config/common/orderConstant'
 import { useDispatch } from 'react-redux'
-import ordersSlice, { getListOrders, updateStatusOrder } from '../../../redux/ordersSlice'
-import { toast } from 'react-toastify'
-import AddToCartToast, { toastType } from '../../../component/toast/content/AddToCartToast'
+import { ToastContainer, toast } from 'react-toastify'
+import { orderStatus, orderStatusList } from '../../../config/common/orderConstant'
+import { getListOrders, updateStatusOrder } from '../../../redux/ordersSlice'
 
 export const Row = ({item}) => {
     const [open, setOpen] = useState(false)
@@ -19,16 +18,16 @@ export const Row = ({item}) => {
         };
         const data = await dispatch(updateStatusOrder(changeStatus));
         if(data.payload.status !== 400 ) {
-            toast(
-                <AddToCartToast
-                  type={toastType.WARNING_INPUT}
-                  msg={"Change status success!"}
-                />,
-                {
-                  position: toast.POSITION.TOP_RIGHT,
-                  autoClose: 1500,
-                }
-              );
+            toast.success('🦄 Success!', {
+                position: "bottom-right",
+                autoClose: 1000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                });
         }
         dispatch(getListOrders());
         console.log(data, 'datane')
@@ -36,7 +35,8 @@ export const Row = ({item}) => {
 
 
   return (
-    <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
+    <>
+         <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
         <TableCell>
         <IconButton
             aria-label="expand row"
@@ -47,10 +47,11 @@ export const Row = ({item}) => {
         </IconButton>
         </TableCell>
         <TableCell align="right">{item.id}</TableCell>
+        <TableCell align="right">{item.fullName}</TableCell>
+        <TableCell align="right">{item.phoneNumber}</TableCell>
         <TableCell align="right">{item.paymentMethod === 'DELIVERY' ? 'COD' : 'PAYPAL'}</TableCell>
         <TableCell align="right">{item.shippingFee}$</TableCell>
         <TableCell align="right">{item.orderStatus.status}</TableCell>
-        <TableCell align="right">{moment(item.createdDate).format('DD/MM/YYYY HH:mm')}</TableCell>
         <TableCell align="right">
             {
                 item.orderStatus.id !== orderStatus.DELIVERED && 
@@ -75,6 +76,34 @@ export const Row = ({item}) => {
                 </>
             }
         </TableCell>
-    </TableRow>
+        </TableRow>
+        <TableRow>
+            <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+                <Collapse in={open} timeout="auto" unmountOnExit>
+                    <Box sx={{ margin: 1 }}>
+                        <Typography variant="h6" gutterBottom component="div">
+                            Detail
+                        </Typography>
+                        <Table size="small" aria-label="purchases">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Address</TableCell>
+                                    <TableCell>Create date</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                <TableRow >
+                                    <TableCell component="th" scope="row">
+                                        {item.address}
+                                    </TableCell>
+                                    <TableCell>{moment(item.createdDate).format('DD/MM/YYYY HH:mm')}</TableCell>
+                                </TableRow>
+                            </TableBody>
+                        </Table>
+                    </Box>
+                </Collapse>
+            </TableCell>
+        </TableRow>
+    </>
   )
 }

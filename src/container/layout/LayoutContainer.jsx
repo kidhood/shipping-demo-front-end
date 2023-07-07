@@ -1,16 +1,28 @@
 import { Container } from '@mui/material'
 import React from 'react'
+import { ToastContainer } from 'react-toastify'
+import PagingListOrder from '../../component/paing-list-order/PagingListOrder'
 import HeaderContainer from '../header/HeaderContainer'
-import FooterContainer from '../footer/FooterContainer'
 import TableOrderContainer from '../table/TableOrderContainer'
-import ToastCustom from '../../component/toast/ToastCustom'
 
 const LayoutContainer = () => {
   return (
     <Container>
         <HeaderContainer/>
-        <ToastCustom />
+        <ToastContainer
+        position="bottom-right"
+        autoClose={1000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+        />
         <TableOrderContainer/>
+        <PagingListOrder />
         {/* <FooterContainer/> */}
     </Container>
   )

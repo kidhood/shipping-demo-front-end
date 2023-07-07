@@ -11,6 +11,9 @@ const ordersSlice = createSlice({
         }
     },
     reducers: {
+        changeCurrentNumber: (state, action) => {
+            state.orders.currentPageNumber = action.payload;
+        },
     },
     extraReducers: (builder) => {
         builder
